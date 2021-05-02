@@ -1,43 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Columns;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
+using Perfolizer.Horology;
 
 namespace MyBenchmarks
 {
     public class Program
     {
-        [MemoryDiagnoser]
-        public class MemoryBenchmarkerDemo
+        // Convert a value from the config file to a appropriate TimeUnit object
+        static TimeUnit tUnit 
         {
-            int NumberOfItems = 100;
-            [Benchmark]
-            public string ConcatStringsUsingStringBuilder()
+            get 
             {
-                var sb = new StringBuilder();
-                for (int i = 0; i < NumberOfItems; i++)
+                switch (ConfigurationManager.AppSettings["TimeUnit"].ToLower())
                 {
-                    sb.Append("Hello World!" + i);
+                    case "nanosecond":
+                        return TimeUnit.Nanosecond;
+                    case "microsecond":
+                        return TimeUnit.Microsecond;
+                    case "millisecond":
+                        return TimeUnit.Millisecond;
+                    case "second":
+                        return TimeUnit.Second;
+                    case "minute":
+                        return TimeUnit.Minute;
+                    case "hour":
+                        return TimeUnit.Hour;
+                    case "day":
+                        return TimeUnit.Day;
+                    default:
+                        return TimeUnit.Microsecond;
                 }
-                return sb.ToString();
             }
-            [Benchmark]
-            public string ConcatStringsUsingGenericList()
+        }
+
+        // Convert a value from the config file to a appropriate SizeUnit object
+        static SizeUnit sUnit
+        {
+            get
             {
-                var list = new List<string>(NumberOfItems);
-                for (int i = 0; i < NumberOfItems; i++)
+                switch (ConfigurationManager.AppSettings["SizeUnit"].ToLower())
                 {
-                    list.Add("Hello World!" + i);
+                    case "b":
+                        return SizeUnit.B;
+                    case "kb":
+                        return SizeUnit.KB;
+                    case "mb":
+                        return SizeUnit.MB;
+                    case "gb":
+                        return SizeUnit.GB;
+                    case "tb":
+                        return SizeUnit.TB;
+                    default:
+                        return SizeUnit.KB;
                 }
-                return list.ToString();
             }
         }
 
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<AlgorithmBenchmarker>();
+            var summary = BenchmarkRunner.Run<AlgorithmBenchmarker>(
+                    ManualConfig.Create(DefaultConfig.Instance).WithSummaryStyle(
+                            new SummaryStyle(
+                                null, 
+                                true,
+                                sUnit, 
+                                tUnit
+                                )
+                        ));
+            
         }
     }
 }
