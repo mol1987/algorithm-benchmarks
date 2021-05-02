@@ -13,7 +13,12 @@ public partial class AlgorithmBenchmarker
     [Benchmark]
     public void HeapSortRun()
     {
-        int[] data = GenerateData(DataSize);
+        //int[] data = GenerateData(DataSize);
+        if (data == null)
+        {
+            Console.WriteLine("Invalid value set in DataSize");
+            return;
+        }
         PerformHeapSort(data);
     }
     private int heapSize;
