@@ -69,13 +69,63 @@ namespace MyBenchmarks
             var summary = BenchmarkRunner.Run<AlgorithmBenchmarker>(
                     ManualConfig.Create(DefaultConfig.Instance).WithSummaryStyle(
                             new SummaryStyle(
-                                null, 
+                                null,
                                 true,
-                                sUnit, 
+                                sUnit,
                                 tUnit
                                 )
                         ));
-            
+            //int[] data;
+            //AlgorithmBenchmarker foo = new AlgorithmBenchmarker();
+            //data = foo.GenerateData(100);
+            //foo.DisplayArray(data);
+            //Console.WriteLine();
+            //Console.WriteLine();
+
+
+            //var time24 = DateTime.Now;
+            //foo.QuickSort(data, 0, data.Length - 1);
+
+            //foo.DisplayArray(data);
+            //Console.WriteLine("\nelapsed time(QuickSort): " + (time24 - DateTime.Now));
+            //Console.WriteLine();
+
+
+
+            //data = foo.GenerateData(100);
+            //foo.DisplayArray(data);
+            //time24 = DateTime.Now;
+            //foo.BubbleSort(data);
+            //Console.WriteLine();
+            //foo.DisplayArray(data);
+            //Console.WriteLine("\nelapsed time(bubble): " + (time24 - DateTime.Now));
+            //Console.WriteLine();
+
+
+
+            //data = foo.GenerateDataReverse(100);
+            //foo.DisplayArray(data);
+            //Console.WriteLine();
+            //Console.WriteLine();
+
+            //time24 = DateTime.Now;
+            //foo.QuickSort(data, 0, data.Length - 1);
+
+            //foo.DisplayArray(data);
+            //Console.WriteLine("\nelapsed time(QuickSortreverse): " + (time24 - DateTime.Now));
+            //Console.WriteLine();
+
+            //data = foo.GenerateDataLastLowest(100);
+            //foo.DisplayArray(data);
+            //Console.WriteLine();
+            //Console.WriteLine();
+
+            //time24 = DateTime.Now;
+            //foo.BubbleSort(data);
+            //foo.DisplayArray(data);
+
+            //Console.WriteLine("\nelapsed time(bubblelast): " + (time24 - DateTime.Now));
+            //Console.WriteLine();
         }
     }
 }
