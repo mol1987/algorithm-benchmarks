@@ -6,6 +6,8 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
 // Simple quick sort algorithm
+// source: https://www.geeksforgeeks.org/timsort/
+
 
 public partial class AlgorithmBenchmarker
 {

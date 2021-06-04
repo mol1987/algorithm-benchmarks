@@ -6,6 +6,7 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
 // Simple quick sort algorithm
+// source: https://www.programmingalgorithms.com/algorithm/bucket-sort/
 
 public partial class AlgorithmBenchmarker
 {

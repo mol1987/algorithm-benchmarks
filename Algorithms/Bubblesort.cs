@@ -5,6 +5,9 @@ using System.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
+
+// source: https://csharpskolan.se/article/bubble-sort/
+
 public partial class AlgorithmBenchmarker
 {
     [Benchmark(Baseline = true)]

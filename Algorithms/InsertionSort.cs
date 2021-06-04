@@ -6,7 +6,7 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
 // Simple quick sort algorithm
-
+// source: https://csharpskolan.se/article/bubble-sort/
 public partial class AlgorithmBenchmarker
 {
     [Benchmark]
