@@ -8,6 +8,8 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
 
+// source: https://simpledevcode.wordpress.com/2014/11/25/heapsort-c-tutorial/
+
 public partial class AlgorithmBenchmarker
 {
     [Benchmark]
