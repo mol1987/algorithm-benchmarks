@@ -8,7 +8,7 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
 
-// source: https://simpledevcode.wordpress.com/2014/11/25/heapsort-c-tutorial/
+// source: https://www.geeksforgeeks.org/heap-sort/
 
 public partial class AlgorithmBenchmarker
 {
@@ -21,58 +21,56 @@ public partial class AlgorithmBenchmarker
             Console.WriteLine("Invalid value set in DataSize");
             return;
         }
-        PerformHeapSort(data);
+        sort(data);
     }
-    private int heapSize;
 
-        private void BuildHeap(int[] arr)
+    public void sort(int[] arr)
+    {
+        int n = arr.Length;
+
+        // Build heap (rearrange array)
+        for (int i = n / 2 - 1; i >= 0; i--)
+            heapify(arr, n, i);
+
+        // One by one extract an element from heap
+        for (int i = n - 1; i > 0; i--)
         {
-            heapSize = arr.Length - 1;
-            for (int i = heapSize / 2; i >= 0; i--)
-            {
-                Heapify(arr, i);
-            }
-        }
+            // Move current root to end
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
 
-        private void Swap(int[] arr, int x, int y)//function to swap elements
-        {
-            int temp = arr[x];
-            arr[x] = arr[y];
-            arr[y] = temp;
+            // call max heapify on the reduced heap
+            heapify(arr, i, 0);
         }
-        private void Heapify(int[] arr, int index)
-        {
-            int left = 2 * index;
-            int right = 2 * index + 1;
-            int largest = index;
-
-            if (left <= heapSize && arr[left] > arr[index])
-            {
-                largest = left;
-            }
-
-            if (right <= heapSize && arr[right] > arr[largest])
-            {
-                largest = right;
-            }
-
-            if (largest != index)
-            {
-                Swap(arr, index, largest);
-                Heapify(arr, largest);
-            }
-        }
-        public void PerformHeapSort(int[] arr)
-        {
-            BuildHeap(arr);
-            for (int i = arr.Length - 1; i >= 0; i--)
-            {
-                Swap(arr, 0, i);
-                heapSize--;
-                Heapify(arr, 0);
-            }
-            DisplayArray(arr);
-        }
-       
     }
+
+    // To heapify a subtree rooted with node i which is
+    // an index in arr[]. n is size of heap
+    void heapify(int[] arr, int n, int i)
+    {
+        int largest = i; // Initialize largest as root
+        int l = 2 * i + 1; // left = 2*i + 1
+        int r = 2 * i + 2; // right = 2*i + 2
+
+        // If left child is larger than root
+        if (l < n && arr[l] > arr[largest])
+            largest = l;
+
+        // If right child is larger than largest so far
+        if (r < n && arr[r] > arr[largest])
+            largest = r;
+
+        // If largest is not root
+        if (largest != i)
+        {
+            int swap = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = swap;
+
+            // Recursively heapify the affected sub-tree
+            heapify(arr, n, largest);
+        }
+    }
+ }
 
