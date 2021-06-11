@@ -5,7 +5,7 @@ using System.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
-//source: https://www.programmersought.com/article/70803889502/
+//source: https://kalkicode.com/tree-sort
 
 
 public partial class AlgorithmBenchmarker
@@ -20,70 +20,116 @@ public partial class AlgorithmBenchmarker
             return;
         }
 
-        BinaryTreeSort(data);
+		tree_sort(data);
 	}
 
-    public void BinaryTreeSort(int[] array)
-    {
-        var binarySortTreeNode = new BinarySortTreeNode(array[0]);
-        for (int i = 1; i < array.Length; i++)
-        {
-            binarySortTreeNode.Insert(array[i]);
-        }
-        binarySortTreeNode.InorderTraversal();
-    }
+	public class Node
+	{
+		// Data value 
+		public int data;
+		// Indicates left and right subtree
+		public Node left;
+		public Node right;
+		public Node(int data)
+		{
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
 
-}
-
-public class BinarySortTreeNode
-{
-
-    public int Key { get; set; }
-
-    public BinarySortTreeNode Left { get; set; }
-
-    public BinarySortTreeNode Right { get; set; }
-
-    public BinarySortTreeNode(int key)
-    {
-        Key = key;
-    }
-
-    public void Insert(int key)
-    {
-        var tree = new BinarySortTreeNode(key);
-        if (tree.Key <= Key)
-        {
-            if (Left == null)
-            {
-                Left = tree;
-            }
-            else
-            {
-                Left.Insert(key);
-            }
-        }
-        else
-        {
-            if (Right == null)
-            {
-                Right = tree;
-            }
-            else
-            {
-                Right.Insert(key);
-            }
-        }
-    }
-
-    /// <summary>
-    /// In-order traversal
-    /// </summary>
-    public void InorderTraversal()
-    {
-        Left?.InorderTraversal();
-        Console.Write($"{Key} ");
-        Right?.InorderTraversal();
-    }
-
+	public Node root = null;
+	public int location = 0;
+	
+	//Function which is display arr elements
+	public void display(int[] arr, int size)
+	{
+		for (int i = 0; i < size; ++i)
+		{
+			Console.Write(" " + arr[i]);
+		}
+		Console.Write("\n");
+	}
+	//insert a node in BST
+	public void add(int data)
+	{
+		//Create a dynamic node of binary search tree 
+		Node new_node = new Node(data);
+		if (new_node != null)
+		{
+			if (this.root == null)
+			{
+				//When adds a first node in tree
+				this.root = new_node;
+			}
+			else
+			{
+				Node find = this.root;
+				//add new node to proper position
+				while (find != null)
+				{
+					if (find.data >= data)
+					{
+						if (find.left == null)
+						{
+							find.left = new_node;
+							return;
+						}
+						else
+						{
+							//visit left sub-tree
+							find = find.left;
+						}
+					}
+					else
+					{
+						if (find.right == null)
+						{
+							find.right = new_node;
+							return;
+						}
+						else
+						{
+							//visit right sub-tree
+							find = find.right;
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			Console.Write("\nMemory Overflow\n");
+		}
+	}
+	//Add sorted order elements into array
+	public Node inorder_sort(Node head, int[] arr)
+	{
+		if (head != null)
+		{
+			head.left = inorder_sort(head.left, arr);
+			//insert tree elements into array
+			arr[location] = head.data;
+			this.location = this.location + 1;
+			head.right = inorder_sort(head.right, arr);
+			//Safely remove tree element
+			if (head.left == null && head.right == null)
+			{
+				//When leaf node found then remove current element
+				head = null;
+			}
+		}
+		return head;
+	}
+	//Executing the tree sort in given array
+	public void tree_sort(int[] arr)
+	{
+		int i = 0;
+		for (i = 0; i < arr.Length; ++i)
+		{
+			add(arr[i]);
+		}
+		this.location = 0;
+		this.root = inorder_sort(root, arr);
+	}
 }
